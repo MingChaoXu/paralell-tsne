@@ -11,9 +11,9 @@ fi
 echo $list_param
 
 
-python -u tsne_beard-parall.py \
+python -u tsne.py \
  --root '' \
  $list_param \
- --out checkpair \
+ --out result \
 #  --tsne_input feature_person_trainv1.npy \
 #  --target target_person_trainv1.npy \
