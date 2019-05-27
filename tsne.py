@@ -6,29 +6,47 @@ import mpl_toolkits.axisartist.axislines as axislines
 import matplotlib as mpl
 from cycler import cycler
 from matplotlib.font_manager import FontProperties
+import argparse
+import os
+from MulticoreTSNE import MulticoreTSNE as TSNE
 
 # tsne_input = np.load('tsne/feature_ae-allattack.npy')
 # target = np.load('tsne/target_ae-allattack.npy')
-tsne_input = np.load('tsne/feature_resnet-allattack.npy')
-target = np.load('tsne/target_resnet-allattack.npy')
+parser = argparse.ArgumentParser(description='Training for Liveness')
+# model
+parser.add_argument('--root', default='', help='root')
+parser.add_argument('--out', default='', help='out folder')
+parser.add_argument('--tsne_input', default='', help='tsne_input')
+parser.add_argument('--target', default='', help='target')
+
+args = parser.parse_args()
+
+# tsne_input = np.load('tsne/feature_resnet-allattack.npy')
+# target = np.load('tsne/target_resnet-allattack.npy')
+tsne_input = np.load(os.path.join(args.root, args.tsne_input))
+tsne_input = np.reshape(tsne_input, (tsne_input.shape[0], -1))
+target = np.load(os.path.join(args.root, args.target))
+
 print('tsne_input:', tsne_input.shape)
 print('target:', target.shape)
+tsne = TSNE(n_jobs=8, n_iter=3000)
+# Y = tsne.fit_transform(X)
 # tsne = manifold.TSNE(n_components=2, init='pca', learning_rate=1000, random_state=0, perplexity=50, early_exaggeration=6.0)
-# print("Computing t-SNE embedding")
-# tsne_output = np.array(tsne.fit_transform(tsne_input))
+print("Computing t-SNE embedding")
+tsne_output = np.array(tsne.fit_transform(tsne_input))
 
 # print('tsne_output:', tsne_output.shape)
 # np.save('tsne/tsne_output_resnet.npy', tsne_output)
 # np.save('tsne/tsne_output_type1.npy', tsne_output)
 # colors = ['red', 'm', 'cyan', 'blue', 'lime']
 
-tsne_output = np.load('tsne/tsne_output_resnet.npy')
+# tsne_output = np.load('tsne/tsne_output_resnet.npy')
 # tsne_output = np.load('tsne/tsne_output_ae.npy')
 print('tsne_output:', tsne_output.shape)
-colors = ['#F08080', '#00FFFF', '#7B68EE', '#7FFF00']
+colors = ['#f65314', '#7FBB09', '#18A9F1','#ffbb00']
 # colors = ['lightcoral', 'cornflowervlue', 'lightgreen', 'moccasin']
 
-cases = ['live', 'attack1', 'attack2', 'attack3']
+cases = ['w/o-beard-spoof', 'w/o-beard-live', 'beard-spoof', 'beard-live']
 # mpl.rcParams['axes.prop_cycle'] = cycler(cases, colors)
 
 plt.switch_backend('agg')
@@ -61,7 +79,7 @@ for i in range(len(colors)):
 
     #index = np.where(pred_all[:,] == i)
 
-    for j in range(3000):
+    for j in range(20000):
         x = tsne_output[j, 0]
         y = tsne_output[j, 1]
         # if x > x_max/2 :
@@ -72,10 +90,10 @@ for i in range(len(colors)):
             py.append(y)
     print('px:', len(px))
     #if i == 0:
-    A = plt.scatter(px, py, s=20, c=colors[i], label = cases[i], marker='o')
+    A = plt.scatter(px, py, s=5, c=colors[i], label = cases[i], marker='o', norm=0.5)
     #plt.scatter(px2, py2, s=20, c=colors[i], marker='v')
 # plt.tick_params(labelsize=23)
-plt.legend(handles=[A], prop=font1)
+plt.legend()
 # plt.legend(np.arange(0,5).astype(str))
 ax.set_yticks([])
 ax.set_xticks([])
@@ -85,6 +103,8 @@ ax.set_xticks([])
 # plt.yticks(range(-40, 40))
 # plt.savefig('C:/Users/Day/Desktop/PPT_report/Galaxy pic/Visualization/2/cnn1_train.png', dpi=300, bbox_inches='tight')
 # plt.savefig('tsne/tsne_output_ae_siwori.png', dpi=300,bbox_inches='tight')
-plt.savefig('tsne/tsne_output_resnet_siwori.png', dpi=300,bbox_inches='tight')
-
+if not os.path.isdir(args.out):
+    os.mkdir(args.out)
+out_img = os.path.join(args.out, os.path.splitext(args.tsne_input)[0]+'.png')
+plt.savefig(out_img, dpi=300,bbox_inches='tight')
 
