@@ -1,14 +1,15 @@
+from sklearn import manifold
+import matplotlib.pyplot as plt
+import numpy as np
+import mpl_toolkits.axisartist.axislines as axislines
+import matplotlib as mpl
+from cycler import cycler
+from matplotlib.font_manager import FontProperties
+import argparse
+import os
+from MulticoreTSNE import MulticoreTSNE as TSNE
+
 def main():
-    from sklearn import manifold
-    import matplotlib.pyplot as plt
-    import numpy as np
-    import mpl_toolkits.axisartist.axislines as axislines
-    import matplotlib as mpl
-    from cycler import cycler
-    from matplotlib.font_manager import FontProperties
-    import argparse
-    import os
-    from MulticoreTSNE import MulticoreTSNE as TSNE
 
     # tsne_input = np.load('tsne/feature_ae-allattack.npy')
     # target = np.load('tsne/target_ae-allattack.npy')
