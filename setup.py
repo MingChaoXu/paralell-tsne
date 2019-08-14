@@ -32,7 +32,7 @@ setup(
     scripts = [],
     entry_points = {
         'console_scripts': [
-            'pal-tsne=paltsne:main_cli'
+            'pal-tsne=tsne:main'
         ]
     }
 )
