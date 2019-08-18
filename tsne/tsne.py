@@ -9,18 +9,18 @@ import argparse
 import os
 from MulticoreTSNE import MulticoreTSNE as TSNE
 
-def main():
+def main(args):
 
     # tsne_input = np.load('tsne/feature_ae-allattack.npy')
     # target = np.load('tsne/target_ae-allattack.npy')
-    parser = argparse.ArgumentParser(description='Training for Liveness')
-    # model
-    parser.add_argument('--root', default='', help='root')
-    parser.add_argument('--out', default='', help='out folder')
-    parser.add_argument('--tsne_input', default='', help='tsne_input')
-    parser.add_argument('--target', default='', help='target')
+    # parser = argparse.ArgumentParser(description='Training for Liveness')
+    # # model
+    # parser.add_argument('--root', default='', help='root')
+    # parser.add_argument('--out', default='', help='out folder')
+    # parser.add_argument('--tsne_input', default='', help='tsne_input')
+    # parser.add_argument('--target', default='', help='target')
 
-    args = parser.parse_args()
+    # args = parser.parse_args()
 
     # tsne_input = np.load('tsne/feature_resnet-allattack.npy')
     # target = np.load('tsne/target_resnet-allattack.npy')
